@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isaac.CategoryMapper">
+    <resultMap id="categoryResultMap" type="com.isaac.Category">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <select id="getCategoryById" resultMap="categoryResultMap">
+        SELECT * FROM categories WHERE id = #{id}
+    </select>
+
+    <select id="getAllCategories" resultMap="categoryResultMap">
+        SELECT * FROM categories
+    </select>
+
+    <insert id="addCategory" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO categories (name) VALUES (#{name})
+    </insert>
+
+    <update id="updateCategory">
+        UPDATE categories SET name = #{name} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteCategory">
+        DELETE FROM categories WHERE id = #{id}
+    </delete>
+</mapper>

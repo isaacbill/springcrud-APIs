@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isaac.ProductMapper">
+    <resultMap id="productResultMap" type="com.isaac.Products">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="subcategoryId" column="subcategory_id"/>
+        <result property="description" column="description"/>
+        <result property="price" column="price"/>
+        <result property="quantity" column="quantity"/>
+    </resultMap>
+
+<select id="getProductById" resultMap="productResultMap">
+        SELECT * FROM products WHERE id = #{id}
+    </select>
+
+    <select id="getAllProducts" resultType="com.isaac.Products">
+        SELECT * FROM products
+    </select>
+
+    <insert id="addProduct" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO products (name, categoryId, subcategoryId, description, price, quantity)
+        VALUES (#{name}, #{categoryId}, #{subcategoryId}, #{description}, #{price}, #{quantity})
+    </insert>
+
+    <update id="updateProduct">
+        UPDATE products SET name = #{name}, categoryId = #{categoryId}, subcategoryId = #{subcategoryId},
+        description = #{description}, price = #{price}, quantity = #{quantity} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteProduct">
+        DELETE FROM products WHERE id = #{id}
+    </delete>
+
+
+ </mapper>
