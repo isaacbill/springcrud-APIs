@@ -2,7 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="${contextPath}/resources/bootstrap.min.css" rel="stylesheet">
     <title>Edit Product</title>
+    <style>
+         {
+            width: 30%;
+            padding: 5px 5px;
+            margin: 5px 0;
+            box-sizing: border-box;
+         }
+      </style>
 </head>
 <body>
     <h1>Edit Product</h1>
@@ -27,7 +37,7 @@
         <input type="text" id="price" name="price" value="${product.price}"><br>
         <label for="quantity">Quantity:</label>
         <input type="text" id="quantity" name="quantity" value="${product.quantity}"><br>
-        <input type="submit" value="Update Product">
+        <input type="submit" class="btn btn-primary"value="Update Product">
     </form>
 </body>
 </html>
