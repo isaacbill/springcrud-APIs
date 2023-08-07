@@ -56,30 +56,44 @@ public class ProductController {
 	        return new ResponseEntity<>("Product added successfully", HttpStatus.CREATED);
 	    }
 
-//	 @GetMapping("/products/edit/{id}")
-//	    public String showEditProductForm(@PathVariable("id") Integer id, Model model) {
-//	        Products product = productService.getProductById(id);
-//	        List<Category> categories = categoryService.getAllCategories();
-//	        List<Subcategory> subcategories = subcategoryService.getAllSubcategories();
-//	        model.addAttribute("categories", categories);
-//	        model.addAttribute("subcategories", subcategories);
-//	        model.addAttribute("product", product);
-//	        return "edit-product";
-//	    } 
-//
-//	    @PostMapping("/products/edit/{id}")
-//	    public String editProduct(@PathVariable("id") Integer id, @ModelAttribute("product") Products product) {
-//	        product.setId(id);
-//	        productService.editProduct(product);
-//	        return "redirect:/products";
-//	    }
 	 @GetMapping("/products/edit/{id}")
-	    public Products showEditProductForm(@PathVariable("id") Integer id) {
+	    public ResponseEntity<Map<String, Object>> showEditProductForm(@PathVariable("id") Integer id) {
 	        Products product = productService.getProductById(id);
-	        return product;
+	        if (product == null) {
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	        }
+
+	        List<Category> categories = categoryService.getAllCategories();
+	        List<Subcategory> subcategories = subcategoryService.getAllSubcategories();
+
+	        Map<String, Object> responseData = new HashMap<>();
+	        responseData.put("product", product);
+	        responseData.put("categories", categories);
+	        responseData.put("subcategories", subcategories);
+
+	        return new ResponseEntity<>(responseData, HttpStatus.OK);
+	    }
+
+	    @PostMapping("/products/edit/{id}")
+	    public ResponseEntity<String> editProduct(@PathVariable("id") Integer id, @RequestBody Products product) {
+	        Products existingProduct = productService.getProductById(id);
+	        if (existingProduct == null) {
+	            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+	        }
+
+	        // Update the existing product with the new data
+	        existingProduct.setName(product.getName());
+	        existingProduct.setCategoryId(product.getCategoryId());
+	        existingProduct.setSubcategoryId(product.getSubcategoryId());
+	        existingProduct.setDescription(product.getDescription());
+	        existingProduct.setPrice(product.getPrice());
+	        existingProduct.setQuantity(product.getQuantity());
+
+	        productService.editProduct(existingProduct);
+
+	        return new ResponseEntity<>("Product updated successfully", HttpStatus.OK);
 	    }
 	 
-
 	    @GetMapping("/products/delete/{id}")
 	    public String deleteProduct(@PathVariable("id") Integer id) {
 	        productService.deleteProduct(id);
