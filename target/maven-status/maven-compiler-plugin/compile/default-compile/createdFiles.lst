@@ -1,4 +1,10 @@
 com\isaac\ProductController.class
+com\isaac\Subcategory.class
+com\isaac\CategoryService.class
+com\isaac\CategoryController.class
+com\isaac\Products.class
+com\isaac\SubcategoryController.class
 com\isaac\ProductService.class
 com\isaac\MyBatisConfig.class
-com\isaac\Products.class
+com\isaac\Category.class
+com\isaac\SubcategoryService.class

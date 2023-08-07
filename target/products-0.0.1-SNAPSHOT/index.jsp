@@ -1,14 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>CRUD Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="${contextPath}/resources/bootstrap.min.css" rel="stylesheet">
+    <title>CRUD Application Dashboard</title>
 </head>
 <body>
-    <h1>Welcome to CRUD Application</h1>
-    <ul>
-        <li><a href="${pageContext.request.contextPath}/products">View All Products</a></li>
-        <li><a href="/categories">Manage Categories</a></li>
-        <li><a href="/subcategories">Manage Subcategories</a></li>
-    </ul>
-</body>
+<h1>welcome</h1>
+    </body>
 </html>
