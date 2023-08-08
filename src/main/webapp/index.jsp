@@ -6,6 +6,6 @@
     <title>CRUD Application Dashboard</title>
 </head>
 <body>
-<h1>welcome</h1>
+<p>welcome</p>
     </body>
 </html>

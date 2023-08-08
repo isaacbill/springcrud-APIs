@@ -7,9 +7,8 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -94,11 +93,21 @@ public class ProductController {
 	        return new ResponseEntity<>("Product updated successfully", HttpStatus.OK);
 	    }
 	 
-	    @GetMapping("/products/delete/{id}")
-	    public String deleteProduct(@PathVariable("id") Integer id) {
-	        productService.deleteProduct(id);
-	        return "redirect:/products";
-	    }
+//	    @GetMapping("/products/delete/{id}")
+//	    public String deleteProduct(@PathVariable("id") Integer id) {
+//	        productService.deleteProduct(id);
+//	        return "redirect:/products";
+//	    }
+	    @DeleteMapping("/products/delete/{id}")
+	    public ResponseEntity<String> deleteProduct(@PathVariable("id") Integer id) {
+	        Products product = productService.getProductById(id);
+	        if (product == null) {
+	            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+	        }
 
+	        productService.deleteProduct(id);
+
+	        return new ResponseEntity<>("Product deleted successfully", HttpStatus.OK);
+	    }
 	  
 }
