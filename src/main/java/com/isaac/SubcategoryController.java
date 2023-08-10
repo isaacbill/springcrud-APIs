@@ -1,14 +1,20 @@
 package com.isaac;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
@@ -23,28 +29,51 @@ public class SubcategoryController {
         this.subcategoryService = subcategoryService;
         this.categoryService = categoryService;
     }
-	    
+    
+    @GetMapping("/subcategories")
+	 @ResponseBody 
+	 public List<Subcategory> getAllCategories(){
+		  List<Subcategory> subcategories = subcategoryService.getAllSubcategories();
+	  
+	  return subcategories;
+	  }	    
+    @GetMapping("/subcategories/add")
+    public ResponseEntity<Map<String, Object>> showAddSubcategoryForm() {
+    	List<Category> categories = categoryService.getAllCategories();
+    	List<Subcategory> subcategories = subcategoryService.getAllSubcategories();
+    	
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("categories", categories);
+        responseData.put("subcategories", subcategories);
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
 
-	    @GetMapping("/subcategories")
-	    public String getAllSubcategories(Model model) {
-	        List<Subcategory> subcategories = subcategoryService.getAllSubcategories();
-	        model.addAttribute("subcategories", subcategories);
-	        return "subcategories";
-	    }
+    @PostMapping("/subcategories/add")
+    public ResponseEntity<String> addSubcategory(@RequestBody Subcategory subcategory) {
+    	 try {
+    	        subcategoryService.addSubcategory(subcategory);
+    	        return ResponseEntity.ok("Subcategory added successfully");
+    	    } catch (Exception e) {
+    	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    	            .body("Failed to add subcategory: " + e.getMessage());
+    	    }
+    }
+    
 
-	    @GetMapping("/subcategories/add")
-	    public String showAddSubcategoryForm(Model model) {
-	        List<Category> categories = categoryService.getAllCategories();
-	        model.addAttribute("categories", categories);
-	        model.addAttribute("subcategory", new Subcategory());
-	        return "add-subcategory";
-	    }
 
-	    @PostMapping("/subcategories/add")
-	    public String addSubcategory(@ModelAttribute("subcategory") Subcategory subcategory) {
-	        subcategoryService.addSubcategory(subcategory);
-	        return "redirect:/subcategories";
-	    }
+//	    @GetMapping("/subcategories/add")
+//	    public String showAddSubcategoryForm(Model model) {
+//	        List<Category> categories = categoryService.getAllCategories();
+//	        model.addAttribute("categories", categories);
+//	        model.addAttribute("subcategory", new Subcategory());
+//	        return "add-subcategory";
+//	    }
+//
+//	    @PostMapping("/subcategories/add")
+//	    public String addSubcategory(@ModelAttribute("subcategory") Subcategory subcategory) {
+//	        subcategoryService.addSubcategory(subcategory);
+//	        return "redirect:/subcategories";
+//	    }
 
 	    @GetMapping("/subcategories/edit/{id}")
 	    public String showEditSubcategoryForm(@PathVariable("id") Integer id, Model model) {
